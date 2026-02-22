@@ -19,7 +19,7 @@ class Tenant extends Model
     {
         return $this->hasMany(Contract::class);
     }
-
+    
     public function users(): HasMany
     {
         return $this->hasMany(User::class);
