@@ -23,7 +23,7 @@ class AuthController extends Controller
 
         return $this->returnItemWithSuccessMessage(
             item: new LoginResource($data),
-            message: 'Login successful'
+            message: 'Logged in successfully'
         );
     }
 }
