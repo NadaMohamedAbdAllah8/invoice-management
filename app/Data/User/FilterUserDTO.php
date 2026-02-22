@@ -2,7 +2,9 @@
 
 namespace App\Data\User;
 
-class FilterUserDTO
+use App\Data\BaseDTO;
+
+class FilterUserDTO extends BaseDTO
 {
     public function __construct(
         public readonly ?string $email = null,
