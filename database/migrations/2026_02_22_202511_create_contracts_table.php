@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('contracts', function (Blueprint $table): void {
             $table->id();
-            $table->foreignId('tenant_id')->constrained()->cascadeOnDelete();
+            $table->unsignedBigInteger('tenant_id');
             $table->string('unit_name');
             $table->string('customer_name');
             $table->decimal('rent_amount', 12, 2);
@@ -18,6 +18,13 @@ return new class extends Migration
             $table->date('end_date');
             $table->enum('status', ['draft', 'active', 'expired', 'terminated']);
             $table->boolean('is_active')->default(true);
+
+            $table->foreign('tenant_id')
+                ->on('tenants')
+                ->references('id')
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete();
+
             $table->timestamps();
         });
     }
