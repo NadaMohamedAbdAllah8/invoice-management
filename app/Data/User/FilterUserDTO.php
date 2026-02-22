@@ -7,6 +7,6 @@ use App\Data\BaseDTO;
 class FilterUserDTO extends BaseDTO
 {
     public function __construct(
-        public readonly ?string $email = null,
+        public readonly string $email,
     ) {}
 }
