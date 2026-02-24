@@ -6,11 +6,6 @@ class TenantContext
 {
     private ?int $tenantId = null;
 
-    public function register(): void
-    {
-        $this->app->singleton(TenantContext::class, fn () => new TenantContext);
-    }
-
     public function setTenantId(int $tenantId): void
     {
         $this->tenantId = $tenantId;
