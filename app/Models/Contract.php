@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\ContractStatus;
+use App\Tenancy\Traits\BelongsToTenant;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -10,10 +11,9 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Contract extends Model
 {
-    use HasFactory;
+    use BelongsToTenant, HasFactory;
 
     protected $fillable = [
-        'tenant_id',
         'unit_name',
         'customer_name',
         'rent_amount',
@@ -22,6 +22,8 @@ class Contract extends Model
         'status',
         'is_active',
     ];
+
+    protected $guarded = ['tenant_id'];
 
     protected function casts(): array
     {
