@@ -10,7 +10,6 @@ class ContractResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'tenant_id' => $this->tenant_id,
             'unit_name' => $this->unit_name,
             'customer_name' => $this->customer_name,
             'rent_amount' => $this->rent_amount,

@@ -8,9 +8,7 @@ use App\Repositories\ContractRepositoryInterface;
 
 class ContractService
 {
-    public function __construct(private ContractRepositoryInterface $contractRepository)
-    {
-    }
+    public function __construct(private ContractRepositoryInterface $contractRepository) {}
 
     public function createOne(CreateContractDTO $dto): Contract
     {
