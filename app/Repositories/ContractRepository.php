@@ -9,6 +9,6 @@ class ContractRepository implements ContractRepositoryInterface
 {
     public function createOne(CreateContractDTO $data): Contract
     {
-        return Contract::query()->create($data->toArray());
+        return Contract::create($data->toArray());
     }
 }
