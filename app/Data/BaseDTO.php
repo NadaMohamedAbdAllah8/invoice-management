@@ -17,4 +17,9 @@ abstract class BaseDTO
     {
         return new static(...$data);
     }
+
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
 }
