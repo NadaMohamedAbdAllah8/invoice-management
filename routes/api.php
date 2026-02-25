@@ -11,4 +11,5 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware(['auth:sanctum', 'tenant'])->group(function (): void {
     Route::post('/contracts', [ContractController::class, 'store']);
     Route::post('/contracts/{contract}/invoices', [InvoiceController::class, 'store']);
+    Route::get('/invoices/{invoice}', [InvoiceController::class, 'show']);
 });

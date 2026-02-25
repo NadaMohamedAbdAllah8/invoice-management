@@ -6,6 +6,7 @@ use App\Data\CreateInvoiceDTO;
 use App\Http\Requests\CreateInvoiceRequest;
 use App\Http\Resources\InvoiceResource;
 use App\Models\Contract;
+use App\Models\Invoice;
 use App\Services\InvoiceService;
 use App\Traits\RespondsWithJson;
 use Illuminate\Http\JsonResponse;
@@ -25,6 +26,14 @@ class InvoiceController extends Controller
         return $this->returnItemWithSuccessMessage(
             item: new InvoiceResource($invoice),
             message: 'Invoice created successfully'
+        );
+    }
+
+    public function show(Invoice $invoice): JsonResponse
+    {
+        return $this->returnItemWithSuccessMessage(
+            item: new InvoiceResource($invoice->load('contract', 'payments')),
+            message: 'Invoice fetched successfully'
         );
     }
 }
