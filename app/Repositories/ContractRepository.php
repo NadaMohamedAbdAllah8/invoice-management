@@ -11,4 +11,9 @@ class ContractRepository implements ContractRepositoryInterface
     {
         return Contract::create($data->toArray());
     }
+
+    public function getOneById(int $id): Contract
+    {
+        return Contract::findOrFail($id);
+    }
 }

@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Repositories\ContractRepository;
 use App\Repositories\ContractRepositoryInterface;
+use App\Repositories\InvoiceRepository;
+use App\Repositories\InvoiceRepositoryInterface;
 use App\Repositories\UserRepository;
 use App\Repositories\UserRepositoryInterface;
 use App\Services\TaxService;
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
 
         $this->bindInterfaces([
             ContractRepositoryInterface::class => ContractRepository::class,
+            InvoiceRepositoryInterface::class => InvoiceRepository::class,
             UserRepositoryInterface::class => UserRepository::class,
         ]);
 
