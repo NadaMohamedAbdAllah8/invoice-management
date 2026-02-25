@@ -20,8 +20,6 @@ class InvoiceResource extends JsonResource
             'status' => $this->status?->value,
             'due_date' => $this->due_date,
             'paid_at' => $this->paid_at,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
     }
 }
