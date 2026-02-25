@@ -17,8 +17,6 @@ class ContractResource extends JsonResource
             'end_date' => $this->end_date,
             'status' => $this->status?->value,
             'is_active' => $this->is_active,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
     }
 }
