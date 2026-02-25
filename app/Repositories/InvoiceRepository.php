@@ -7,9 +7,9 @@ use App\Models\Invoice;
 
 class InvoiceRepository implements InvoiceRepositoryInterface
 {
-    public function createOne(CreateInvoiceDTO $data): Invoice
+    public function createOne(CreateInvoiceDTO $dto): Invoice
     {
-        return Invoice::create($data->toArray());
+        return Invoice::create($dto->toArray());
     }
 
     public function countForUpdate(): int

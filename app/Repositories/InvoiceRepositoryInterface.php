@@ -7,7 +7,7 @@ use App\Models\Invoice;
 
 interface InvoiceRepositoryInterface
 {
-    public function createOne(CreateInvoiceDTO $data): Invoice;
+    public function createOne(CreateInvoiceDTO $dto): Invoice;
 
     public function countForUpdate(): int;
 }

@@ -7,9 +7,9 @@ use App\Models\Contract;
 
 class ContractRepository implements ContractRepositoryInterface
 {
-    public function createOne(CreateContractDTO $data): Contract
+    public function createOne(CreateContractDTO $dto): Contract
     {
-        return Contract::create($data->toArray());
+        return Contract::create($dto->toArray());
     }
 
     public function getOneById(int $id): Contract
