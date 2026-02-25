@@ -32,21 +32,13 @@ class InvoiceService
             $subtotal = $dto->subtotal;
             $taxAmount = $this->taxService->calculateTotalTax($subtotal);
             $total = $subtotal + $taxAmount;
+           
+            $dto->tax_amount = $taxAmount;
+            $dto->total = $total;
 
-            $reference = $this->generateReference($contract->tenant_id);
+            $dto->invoice_number = $this->generateReference(tenantId: $contract->tenant_id);
 
-            $invoiceDto = new CreateInvoiceDTO(
-                contract_id: $dto->contract_id,
-                invoice_number: $reference,
-                subtotal: $subtotal,
-                tax_amount: $taxAmount,
-                total: $total,
-                status: $dto->status,
-                due_date: $dto->due_date,
-                paid_at: $dto->paid_at,
-            );
-
-            return $this->invoiceRepository->createOne($invoiceDto);
+            return $this->invoiceRepository->createOne(dto: $dto);
         });
     }
 
