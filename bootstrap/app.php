@@ -1,9 +1,12 @@
 <?php
 
+use App\Exceptions\ModelNotFoundException;
 use App\Http\Middlewares\SetTenantFromAuthenticatedUser;
+use Illuminate\Database\Eloquent\ModelNotFoundException as EloquentModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -18,5 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (EloquentModelNotFoundException $e, Request $request) {
+            if ($request->expectsJson()) {
+                return (new ModelNotFoundException("The model is not found"))->render();
+            }
+        });
     })->create();
