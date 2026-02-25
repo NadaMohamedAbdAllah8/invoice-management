@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Data\CreateInvoiceDTO;
 use App\Http\Requests\CreateInvoiceRequest;
 use App\Http\Resources\InvoiceResource;
+use App\Models\Contract;
 use App\Services\InvoiceService;
 use App\Traits\RespondsWithJson;
 use Illuminate\Http\JsonResponse;
@@ -15,11 +16,11 @@ class InvoiceController extends Controller
 
     public function __construct(private InvoiceService $invoiceService) {}
 
-    public function store(CreateInvoiceRequest $request): JsonResponse
+    public function store(CreateInvoiceRequest $request, Contract $contract): JsonResponse
     {
-        $createInvoiceDto = CreateInvoiceDTO::fromRequest($request);
+        $createInvoiceDto = CreateInvoiceDTO::fromRequestWithContract(request: $request, contract: $contract);
 
-        $invoice = $this->invoiceService->createOne($createInvoiceDto);
+        $invoice = $this->invoiceService->createOne(dto: $createInvoiceDto);
 
         return $this->returnItemWithSuccessMessage(
             item: new InvoiceResource($invoice),
