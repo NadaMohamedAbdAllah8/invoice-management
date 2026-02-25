@@ -12,6 +12,5 @@ class CreateInvoiceDTO extends BaseDTO
         public ?string $invoice_number = null,
         public ?float $total = null,
         public ?float $tax_amount = null,
-        public readonly ?string $paid_at = null,
     ) {}
 }
