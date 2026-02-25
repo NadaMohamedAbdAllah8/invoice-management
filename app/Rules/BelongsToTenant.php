@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Tenancy\TenantContext;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
@@ -12,7 +13,8 @@ class BelongsToTenant implements ValidationRule
         private string $column = 'id',
         private ?int $tenantId = null,
     ) {
-        $this->tenantId ??= auth()->user()?->tenant_id;
+        $tenantContext = app(TenantContext::class);
+        $this->tenantId = $tenantContext->getTenantId();
     }
 
     public function validate(string $attribute, mixed $value, Closure $fail): void
