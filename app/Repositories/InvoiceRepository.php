@@ -4,9 +4,11 @@ namespace App\Repositories;
 
 use App\Data\Invoice\CreateInvoiceDTO;
 use App\Data\Invoice\FilterInvoiceDto;
+use App\Data\UpdateManyInvoicesDTO;
 use App\Data\UpdateInvoiceDTO;
 use App\Models\Invoice;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class InvoiceRepository implements InvoiceRepositoryInterface
@@ -16,12 +18,22 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         return Invoice::create($dto->toArray());
     }
 
-    public function findMany(FilterInvoiceDto $filters): LengthAwarePaginator
+    public function findMany(FilterInvoiceDto $filters): Builder
     {
         $builder = Invoice::query()->with(['contract', 'payments']);
         $this->applyFilter(query: $builder, filters: $filters);
 
-        return $builder->paginate($filters->per_page);
+        return $builder;
+    }
+
+    public function paginate(Builder $builder, int $perPage, int $page): LengthAwarePaginator
+    {
+        return $builder->paginate(perPage: $perPage, page: $page);
+    }
+
+    public function get(Builder $builder): Collection
+    {
+        return $builder->get();
     }
 
     public function getOneById(int $id): Invoice
@@ -34,6 +46,17 @@ class InvoiceRepository implements InvoiceRepositoryInterface
         $invoice->update($dto->toArray());
 
         return $invoice->refresh();
+    }
+
+    public function updateMany(UpdateManyInvoicesDTO $dto, Collection $invoices): int
+    {
+        if ($invoices->isEmpty()) {
+            return 0;
+        }
+
+        return Invoice::query()
+            ->whereIn('id', $invoices->pluck('id'))
+            ->update($dto->toArray());
     }
 
     public function countForUpdate(): int
@@ -59,6 +82,11 @@ class InvoiceRepository implements InvoiceRepositoryInterface
 
         if (! is_null($filters->to_due_date)) {
             $query->whereDate('due_date', '<=', $filters->to_due_date);
+        }
+
+        // is_past_due_date
+          if (! is_null($filters->is_past_due_date)) {
+            $query->wherePast('due_date');
         }
     }
 }
