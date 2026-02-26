@@ -11,6 +11,7 @@ class FilterInvoiceDto extends InvoiceDTO
         public ?string $status = null,
         public ?string $from_due_date = null,
         public ?string $to_due_date = null,
+        public ?bool $is_past_due_date = null,
         public ?int $page = null,
         public ?int $per_page = null,
     ) {
