@@ -14,7 +14,7 @@ class ModelNotFoundException extends Exception
     public function render(): JsonResponse
     {
         return $this->returnErrorMessage(
-            $this->getMessage(),
+            $this->getMessage() ?: 'Model does not exist',
             Response::HTTP_NOT_FOUND
         );
     }

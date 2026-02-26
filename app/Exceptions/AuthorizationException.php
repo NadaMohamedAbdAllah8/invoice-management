@@ -14,7 +14,7 @@ class AuthorizationException extends Exception
     public function render(): JsonResponse
     {
         return $this->returnErrorMessage(
-            'You are not allowed to perform this action.',
+            $this->getMessage() ?: 'You are not allowed to perform this action.',
             Response::HTTP_FORBIDDEN
         );
     }
