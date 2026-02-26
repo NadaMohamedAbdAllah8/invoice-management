@@ -14,4 +14,6 @@ Route::middleware(['auth:sanctum', 'tenant'])->group(function (): void {
     Route::post('/contracts/{contract}/invoices', [InvoiceController::class, 'store']);
 
     Route::post('/invoices/{invoice}/payments', [PaymentController::class, 'store']);
+   
+    Route::get('/invoices/{invoice}', [InvoiceController::class, 'show']);
 });
