@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Data\Invoice\FilterInvoiceDto;
 use App\Http\Requests\ContractInvoicesRequest;
-use App\Http\Resources\InvoiceFilterResource;
+use App\Http\Resources\ContactInvoiceResource;
 use App\Services\InvoiceService;
 use App\Traits\RespondsWithJson;
 use Illuminate\Http\JsonResponse;
@@ -24,7 +24,7 @@ class ContractInvoicesController extends Controller
         return $this->returnPaginatedData(
             item: $invoices,
             message: 'Contract invoices fetched successfully',
-            resourcePath: InvoiceFilterResource::class,
+            resourcePath: ContactInvoiceResource::class,
         );
     }
 }
