@@ -3,10 +3,16 @@
 namespace App\Services;
 
 use App\Data\CreateInvoiceDTO;
+use App\Data\CreatePaymentDTO;
+use App\Data\UpdateInvoiceDTO;
+use App\Enums\InvoiceStatus;
 use App\Models\Invoice;
+use App\Models\Payment;
 use App\Repositories\ContractRepositoryInterface;
 use App\Repositories\InvoiceRepositoryInterface;
+use App\Repositories\PaymentRepositoryInterface;
 use App\Validators\InvoiceValidator;
+use App\Validators\PaymentValidator;
 use Illuminate\Support\Facades\DB;
 
 class InvoiceService
@@ -19,6 +25,7 @@ class InvoiceService
 
     public function __construct(
         private InvoiceRepositoryInterface $invoiceRepository,
+        private PaymentRepositoryInterface $paymentRepository,
         private ContractRepositoryInterface $contractRepository,
         private TaxService $taxService,
     ) {}
@@ -32,7 +39,7 @@ class InvoiceService
             $subtotal = $dto->subtotal;
             $taxAmount = $this->taxService->calculateTotalTax($subtotal);
             $total = $subtotal + $taxAmount;
-           
+
             $dto->tax_amount = $taxAmount;
             $dto->total = $total;
 
@@ -40,6 +47,43 @@ class InvoiceService
 
             return $this->invoiceRepository->createOne(dto: $dto);
         });
+    }
+
+    public function recordPayment(CreatePaymentDTO $dto): Payment
+    {
+        return DB::transaction(function () use ($dto): Payment {
+            $invoice = $this->invoiceRepository->getOneById(id: $dto->invoice_id);
+            PaymentValidator::throwExceptionIfInvoiceIsCancelled(invoice: $invoice);
+            PaymentValidator::throwExceptionIfAmountExceedsRemainingBalance(
+                invoice: $invoice,
+                amount: $dto->amount,
+            );
+
+            $payment = $this->paymentRepository->createOne(dto: $dto);
+
+            $totalPaid = $invoice->payments()->sum('amount');
+            $invoiceTotal = $invoice->total;
+
+            if ($totalPaid >= $invoiceTotal) {
+                $updateInvoiceDto = new UpdateInvoiceDTO(
+                    status: InvoiceStatus::PAID->value,
+                    paid_at: now()->toDateTimeString(),
+                );
+            } else {
+                $updateInvoiceDto = new UpdateInvoiceDTO(
+                    status: InvoiceStatus::PARTIALLY_PAID->value,
+                );
+            }
+
+            $this->updateOne(invoice: $invoice, dto: $updateInvoiceDto);
+
+            return $payment;
+        });
+    }
+
+    public function updateOne(Invoice $invoice, UpdateInvoiceDTO $dto): Invoice
+    {
+        return $this->invoiceRepository->updateOne(invoice: $invoice, dto: $dto);
     }
 
     private function generateInvoiceNumber(int $tenantId): string
