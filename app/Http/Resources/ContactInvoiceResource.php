@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class InvoiceFilterResource extends JsonResource
+class ContactInvoiceResource extends JsonResource
 {
     public function toArray($request): array
     {
