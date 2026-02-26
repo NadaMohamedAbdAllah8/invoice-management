@@ -2,8 +2,9 @@
 
 namespace App\Services;
 
-use App\Data\CreateInvoiceDTO;
 use App\Data\CreatePaymentDTO;
+use App\Data\Invoice\CreateInvoiceDTO;
+use App\Data\Invoice\FilterInvoiceDto;
 use App\Data\UpdateInvoiceDTO;
 use App\Enums\InvoiceStatus;
 use App\Models\Invoice;
@@ -13,6 +14,7 @@ use App\Repositories\InvoiceRepositoryInterface;
 use App\Repositories\PaymentRepositoryInterface;
 use App\Validators\InvoiceValidator;
 use App\Validators\PaymentValidator;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class InvoiceService
@@ -84,6 +86,11 @@ class InvoiceService
     public function updateOne(Invoice $invoice, UpdateInvoiceDTO $dto): Invoice
     {
         return $this->invoiceRepository->updateOne(invoice: $invoice, dto: $dto);
+    }
+
+    public function findMany(FilterInvoiceDto $dto): LengthAwarePaginator
+    {
+        return $this->invoiceRepository->findMany(filters: $dto);
     }
 
     private function generateInvoiceNumber(int $tenantId): string

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Data\CreatePaymentDTO;
 use App\Http\Requests\CreatePaymentRequest;
 use App\Http\Resources\PaymentResource;
-use App\Models\Invoice;
 use App\Services\InvoiceService;
 use App\Traits\RespondsWithJson;
 use Illuminate\Http\JsonResponse;
@@ -16,12 +15,9 @@ class PaymentController extends Controller
 
     public function __construct(private InvoiceService $invoiceService) {}
 
-    public function store(CreatePaymentRequest $request, Invoice $invoice): JsonResponse
+    public function store(CreatePaymentRequest $request): JsonResponse
     {
-        $createPaymentDto = CreatePaymentDTO::fromRequestWithInvoice(
-            request: $request,
-            invoice: $invoice
-        );
+        $createPaymentDto = CreatePaymentDTO::fromRequest(request: $request);
 
         $payment = $this->invoiceService->recordPayment(dto: $createPaymentDto);
 
