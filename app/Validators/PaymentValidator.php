@@ -18,7 +18,7 @@ class PaymentValidator
 
     public static function throwExceptionIfAmountExceedsRemainingBalance(Invoice $invoice, float $amount): void
     {
-        if (round($amount, 2) > round($invoice->remaining_balance, 2)) {
+        if ($amount > $invoice->remaining_balance) {
             throw new InsufficientBalanceException;
         }
     }
