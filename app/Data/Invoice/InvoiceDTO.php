@@ -12,7 +12,7 @@ class InvoiceDTO extends BaseDTO
     public static function fromRequest(FormRequest $request): static
     {
         $dto = parent::fromRequest(request: $request);
-        $dto->contract_id = $request->route('contract');
+        $dto->contract_id = $request->route('contract')->id;
 
         return $dto;
     }
