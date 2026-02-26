@@ -14,7 +14,7 @@ class ContractSummaryController extends Controller
     public function __invoke(Contract $contract): JsonResponse
     {
         return $this->returnItemWithSuccessMessage(
-            item: new ContractSummaryResource($contract->load('invoices.payments')),
+            item: new ContractSummaryResource($contract),
             message: 'Contract summary fetched successfully',
         );
     }
