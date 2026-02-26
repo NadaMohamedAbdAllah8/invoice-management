@@ -8,14 +8,14 @@ abstract class BaseDTO
 {
     public static function fromRequest(FormRequest $request): static
     {
-        $data = $request->validated();
+        $dto = $request->validated();
 
-        return static::fromArray($data);
+        return static::fromArray($dto);
     }
 
-    public static function fromArray(array $data): static
+    public static function fromArray(array $dto): static
     {
-        return new static(...$data);
+        return new static(...$dto);
     }
 
     public function toArray(): array

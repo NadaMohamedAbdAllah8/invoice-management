@@ -12,6 +12,6 @@ class ContractService
 
     public function createOne(CreateContractDTO $dto): Contract
     {
-        return $this->contractRepository->createOne(data: $dto);
+        return $this->contractRepository->createOne(dto: $dto);
     }
 }

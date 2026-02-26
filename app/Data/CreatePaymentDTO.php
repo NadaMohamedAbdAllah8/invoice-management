@@ -2,7 +2,6 @@
 
 namespace App\Data;
 
-use App\Models\Invoice;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -18,10 +17,10 @@ class CreatePaymentDTO extends BaseDTO
         $this->paid_at = $this->paid_at ?? Carbon::now()->toDateTimeString();
     }
 
-    public static function fromRequestWithInvoice(FormRequest $request, Invoice $invoice): static
+    public static function fromRequest(FormRequest $request): static
     {
         $dto = parent::fromRequest(request: $request);
-        $dto->invoice_id = $invoice->id;
+        $dto->invoice_id = $request->route('invoice');
 
         return $dto;
     }
