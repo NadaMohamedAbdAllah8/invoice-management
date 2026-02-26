@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Payment;
 
 use App\Data\CreatePaymentDTO;
 use App\Models\Payment;

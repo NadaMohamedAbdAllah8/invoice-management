@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Contract;
 
 use App\Data\CreateContractDTO;
 use App\Models\Contract;

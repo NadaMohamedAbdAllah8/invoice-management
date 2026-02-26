@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Invoice;
 
 use App\Data\Invoice\CreateInvoiceDTO;
 use App\Data\Invoice\FilterInvoiceDto;
-use App\Data\UpdateManyInvoicesDTO;
 use App\Data\UpdateInvoiceDTO;
+use App\Data\UpdateManyInvoicesDTO;
 use App\Models\Invoice;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -84,8 +84,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
             $query->whereDate('due_date', '<=', $filters->to_due_date);
         }
 
-        // is_past_due_date
-          if (! is_null($filters->is_past_due_date)) {
+        if (! is_null($filters->is_past_due_date)) {
             $query->wherePast('due_date');
         }
     }

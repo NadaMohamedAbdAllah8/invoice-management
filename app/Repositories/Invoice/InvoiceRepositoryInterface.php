@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Repositories\Invoice;
 
 use App\Data\Invoice\CreateInvoiceDTO;
 use App\Data\Invoice\FilterInvoiceDto;
