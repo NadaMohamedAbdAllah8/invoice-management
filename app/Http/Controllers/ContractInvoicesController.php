@@ -19,9 +19,7 @@ class ContractInvoicesController extends Controller
     {
         $filterInvoiceDto = FilterInvoiceDto::fromRequest(request: $request);
 
-        $invoices = $this->invoiceService->findMany(
-            dto: $filterInvoiceDto,
-        );
+        $invoices = $this->invoiceService->findMany(dto: $filterInvoiceDto);
 
         return $this->returnPaginatedData(
             item: $invoices,
