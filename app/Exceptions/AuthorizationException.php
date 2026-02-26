@@ -15,7 +15,7 @@ class AuthorizationException extends Exception
     {
         return $this->returnErrorMessage(
             'You are not allowed to perform this action.',
-            Response::HTTP_UNAUTHORIZED
+            Response::HTTP_FORBIDDEN
         );
     }
 }
