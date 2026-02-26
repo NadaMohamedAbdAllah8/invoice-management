@@ -7,7 +7,7 @@ use App\Models\Payment;
 =
 class PaymentRepository implements PaymentRepositoryInterface
 {
-      public function createOne(CreatePaymentDTO $dto): Payment
+    public function createOne(CreatePaymentDTO $dto): Payment
     {
         return Payment::create($dto->toArray());
     }
