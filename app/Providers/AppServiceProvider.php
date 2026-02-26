@@ -2,19 +2,16 @@
 
 namespace App\Providers;
 
-use App\Repositories\ContractRepository;
-use App\Repositories\ContractRepositoryInterface;
-use App\Repositories\InvoiceRepository;
-use App\Repositories\InvoiceRepositoryInterface;
-use App\Repositories\PaymentRepository;
-use App\Repositories\PaymentRepositoryInterface;
-use App\Repositories\UserRepository;
-use App\Repositories\UserRepositoryInterface;
+use App\Events\PaidInvoice as PaidInvoiceEvent;
+use App\Listeners\PaidInvoice as PaidInvoiceListener;
+use App\Models\Invoice;
+use App\Observers\InvoiceObserver;
 use App\Services\TaxService;
 use App\Taxes\MunicipalFeeCalculator;
 use App\Taxes\TourismTaxCalculator;
 use App\Taxes\VatTaxCalculator;
 use App\Tenancy\TenantContext;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,13 +24,6 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(TenantContext::class, function (): TenantContext {
             return new TenantContext;
         });
-
-        $this->bindInterfaces([
-            ContractRepositoryInterface::class => ContractRepository::class,
-            InvoiceRepositoryInterface::class => InvoiceRepository::class,
-            PaymentRepositoryInterface::class => PaymentRepository::class,
-            UserRepositoryInterface::class => UserRepository::class,
-        ]);
 
         $this->app->tag([
             VatTaxCalculator::class,
@@ -51,13 +41,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
-    }
+        Invoice::observe(InvoiceObserver::class);
 
-    private function bindInterfaces(array $bindings): void
-    {
-        foreach ($bindings as $interface => $concrete) {
-            $this->app->bind($interface, $concrete);
-        }
+        Event::listen(PaidInvoiceEvent::class, PaidInvoiceListener::class);
     }
 }

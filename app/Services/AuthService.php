@@ -7,7 +7,7 @@ use App\Data\Auth\LoginDTO;
 use App\Data\Auth\LoginResponseDTO;
 use App\Data\User\FilterUserDTO;
 use App\Exceptions\AuthenticationException;
-use App\Repositories\UserRepositoryInterface;
+use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 
 class AuthService

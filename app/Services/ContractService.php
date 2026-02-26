@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Data\CreateContractDTO;
 use App\Models\Contract;
-use App\Repositories\ContractRepositoryInterface;
+use App\Repositories\Contract\ContractRepositoryInterface;
 
 class ContractService
 {
