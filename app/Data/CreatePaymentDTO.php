@@ -20,7 +20,7 @@ class CreatePaymentDTO extends BaseDTO
     public static function fromRequest(FormRequest $request): static
     {
         $dto = parent::fromRequest(request: $request);
-        $dto->invoice_id = $request->route('invoice');
+        $dto->invoice_id = $request->route('invoice')->id;
 
         return $dto;
     }

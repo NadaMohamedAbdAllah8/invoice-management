@@ -7,15 +7,15 @@ use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 
-class ModelNotFoundException extends Exception
+class AuthorizationException extends Exception
 {
     use RespondsWithJson;
 
     public function render(): JsonResponse
     {
         return $this->returnErrorMessage(
-            $this->getMessage() ?: 'Model does not exist',
-            Response::HTTP_NOT_FOUND
+            $this->getMessage() ?: 'You are not allowed to perform this action.',
+            Response::HTTP_FORBIDDEN
         );
     }
 }
