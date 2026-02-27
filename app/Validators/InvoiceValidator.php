@@ -2,14 +2,15 @@
 
 namespace App\Validators;
 
+use App\Enums\ContractStatus;
 use App\Exceptions\ContractNotActiveException;
 use App\Models\Contract;
 
 class InvoiceValidator
 {
-    public static function throwExceptionIfContractIsInactive(Contract $contract): void
+    public static function throwExceptionIfContractIsNotActive(Contract $contract): void
     {
-        if (! $contract->is_active) {
+        if ($contract->status != ContractStatus::ACTIVE) {
             throw new ContractNotActiveException;
         }
     }

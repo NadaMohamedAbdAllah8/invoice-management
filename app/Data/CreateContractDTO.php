@@ -11,6 +11,5 @@ class CreateContractDTO extends BaseDTO
         public readonly string $start_date,
         public readonly string $end_date,
         public readonly string $status,
-        public readonly bool $is_active = true,
     ) {}
 }
