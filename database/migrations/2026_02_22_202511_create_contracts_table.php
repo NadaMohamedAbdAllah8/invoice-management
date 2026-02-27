@@ -17,7 +17,6 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->enum('status', ['draft', 'active', 'expired', 'terminated']);
-            $table->boolean('is_active')->default(true);
 
             $table->foreign('tenant_id')
                 ->on('tenants')

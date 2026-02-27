@@ -13,6 +13,6 @@ class ContractNotActiveException extends Exception
 
     public function render(): JsonResponse
     {
-        return $this->returnErrorMessage('Contract is inactive!', Response::HTTP_BAD_REQUEST);
+        return $this->returnErrorMessage('Contract is not active!', Response::HTTP_BAD_REQUEST);
     }
 }

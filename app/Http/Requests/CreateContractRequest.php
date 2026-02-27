@@ -22,7 +22,6 @@ class CreateContractRequest extends FormRequest
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date', 'after_or_equal:start_date'],
             'status' => ['required', Rule::enum(ContractStatus::class)],
-            'is_active' => ['nullable', 'boolean'],
         ];
     }
 }

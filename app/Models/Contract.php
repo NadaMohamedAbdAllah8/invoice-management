@@ -21,7 +21,6 @@ class Contract extends Model
         'start_date',
         'end_date',
         'status',
-        'is_active',
     ];
 
     protected $guarded = ['tenant_id'];
