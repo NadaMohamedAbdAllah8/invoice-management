@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\Admin\AdminRepository;
+use App\Repositories\Admin\AdminRepositoryInterface;
 use App\Repositories\Contract\ContractRepository;
 use App\Repositories\Contract\ContractRepositoryInterface;
 use App\Repositories\Invoice\InvoiceRepository;
@@ -17,6 +19,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->bindInterfaces([
+            AdminRepositoryInterface::class => AdminRepository::class,
             ContractRepositoryInterface::class => ContractRepository::class,
             InvoiceRepositoryInterface::class => InvoiceRepository::class,
             PaymentRepositoryInterface::class => PaymentRepository::class,

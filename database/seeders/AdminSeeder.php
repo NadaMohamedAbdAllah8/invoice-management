@@ -13,8 +13,8 @@ class AdminSeeder extends Seeder
     public function run(): void
     {
         Admin::query()->updateOrCreate(
-            ['name' => 'System Admin'],
-            ['name' => 'System Admin']
+            ['email' => 'admin@invoice.test'],
+            ['name' => 'System Admin', 'password' => 'Admin123']
         );
     }
 }
