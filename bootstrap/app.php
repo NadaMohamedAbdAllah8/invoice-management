@@ -2,6 +2,7 @@
 
 use App\Exceptions\AuthorizationException;
 use App\Exceptions\ModelNotFoundException;
+use App\Http\Middlewares\EnsureAdmin;
 use App\Http\Middlewares\SetTenantFromAuthenticatedUser;
 use Illuminate\Auth\Access\AuthorizationException as AccessAuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException as EloquentModelNotFoundException;
@@ -22,6 +23,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'tenant' => SetTenantFromAuthenticatedUser::class,
+            'admin' => EnsureAdmin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

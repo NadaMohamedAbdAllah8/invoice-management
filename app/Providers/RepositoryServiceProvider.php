@@ -10,6 +10,8 @@ use App\Repositories\Invoice\InvoiceRepository;
 use App\Repositories\Invoice\InvoiceRepositoryInterface;
 use App\Repositories\Payment\PaymentRepository;
 use App\Repositories\Payment\PaymentRepositoryInterface;
+use App\Repositories\Tenant\TenantRepository;
+use App\Repositories\Tenant\TenantRepositoryInterface;
 use App\Repositories\User\UserRepository;
 use App\Repositories\User\UserRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
@@ -23,6 +25,7 @@ class RepositoryServiceProvider extends ServiceProvider
             ContractRepositoryInterface::class => ContractRepository::class,
             InvoiceRepositoryInterface::class => InvoiceRepository::class,
             PaymentRepositoryInterface::class => PaymentRepository::class,
+            TenantRepositoryInterface::class => TenantRepository::class,
             UserRepositoryInterface::class => UserRepository::class,
         ]);
     }

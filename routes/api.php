@@ -24,3 +24,7 @@ Route::middleware(['auth:sanctum', 'tenant'])->group(function (): void {
 
     Route::get('/invoices/{invoice}', [InvoiceController::class, 'show']);
 });
+
+Route::middleware(['auth:sanctum', 'admin'])->prefix('/admin')->group(function (): void {
+    Route::apiResource('/tenants', TenantController::class)->except(['destroy']);
+});
