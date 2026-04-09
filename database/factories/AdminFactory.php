@@ -10,12 +10,14 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class AdminFactory extends Factory
 {
-    protected $model = Admin::class;
+    protected static string $password = 'password';
 
     public function definition(): array
     {
         return [
             'name' => $this->faker->name(),
+            'email' => $this->faker->unique()->safeEmail(),
+            'password' => static::$password,
         ];
     }
 }
