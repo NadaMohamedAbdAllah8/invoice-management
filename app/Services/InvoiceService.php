@@ -5,8 +5,8 @@ namespace App\Services;
 use App\Data\CreatePaymentDTO;
 use App\Data\Invoice\CreateInvoiceDTO;
 use App\Data\Invoice\FilterInvoiceDto;
-use App\Data\UpdateManyInvoicesDTO;
 use App\Data\UpdateInvoiceDTO;
+use App\Data\UpdateManyInvoicesDTO;
 use App\Enums\InvoiceStatus;
 use App\Models\Invoice;
 use App\Models\Payment;
@@ -21,24 +21,24 @@ use Illuminate\Support\Facades\DB;
 
 class InvoiceService
 {
-    const REFERENCE_PREFIX = 'INV';
+    public const REFERENCE_PREFIX = 'INV';
 
-    const REFERENCE_TENANT_ID_PADDING = 3;
+    public const REFERENCE_TENANT_ID_PADDING = 3;
 
-    const REFERENCE_SEQUENCE_PADDING = 4;
+    public const REFERENCE_SEQUENCE_PADDING = 4;
 
     public function __construct(
-        private InvoiceRepositoryInterface $invoiceRepository,
-        private PaymentRepositoryInterface $paymentRepository,
-        private ContractRepositoryInterface $contractRepository,
-        private TaxService $taxService,
+        protected InvoiceRepositoryInterface $invoiceRepository,
+        protected PaymentRepositoryInterface $paymentRepository,
+        protected ContractRepositoryInterface $contractRepository,
+        protected TaxService $taxService,
     ) {}
 
     public function createOne(CreateInvoiceDTO $dto): Invoice
     {
-        return DB::transaction(function () use ($dto) {
+        return DB::transaction(function () use ($dto): Invoice {
             $contract = $this->contractRepository->getOneById($dto->contract_id);
-            InvoiceValidator::throwExceptionIfContractIsInactive(contract: $contract);
+            InvoiceValidator::throwExceptionIfContractIsNotActive(contract: $contract);
 
             $subtotal = $dto->subtotal;
             $taxAmount = $this->taxService->calculateTotalTax($subtotal);
@@ -46,7 +46,6 @@ class InvoiceService
 
             $dto->tax_amount = $taxAmount;
             $dto->total = $total;
-
             $dto->invoice_number = $this->generateInvoiceNumber(tenantId: $contract->tenant_id);
 
             return $this->invoiceRepository->createOne(dto: $dto);
@@ -95,7 +94,7 @@ class InvoiceService
         return $this->invoiceRepository->updateMany(dto: $dto, invoices: $invoices);
     }
 
-    public function findMany(FilterInvoiceDto $dto, $shouldPaginate = true): LengthAwarePaginator|Collection
+    public function findMany(FilterInvoiceDto $dto, bool $shouldPaginate = true): LengthAwarePaginator|Collection
     {
         $invoices = $this->invoiceRepository->findMany(filters: $dto);
 
