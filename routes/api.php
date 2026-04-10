@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\InvoiceController as AdminInvoiceController;
 use App\Http\Controllers\Admin\TenantController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ContractController;
@@ -27,4 +28,5 @@ Route::middleware(['auth:sanctum', 'tenant'])->group(function (): void {
 
 Route::middleware(['auth:sanctum', 'admin'])->prefix('/admin')->group(function (): void {
     Route::apiResource('/tenants', TenantController::class)->except(['destroy']);
+    Route::apiResource('/invoices', AdminInvoiceController::class)->only(['index', 'show']);
 });

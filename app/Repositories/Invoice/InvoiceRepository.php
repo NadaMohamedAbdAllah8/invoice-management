@@ -20,7 +20,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
 
     public function findMany(FilterInvoiceDto $filters): Builder
     {
-        $builder = Invoice::query()->with(['contract', 'payments']);
+        $builder = $this->baseQuery()->with(['contract', 'payments']);
         $this->applyFilter(query: $builder, filters: $filters);
 
         return $builder;
@@ -38,7 +38,7 @@ class InvoiceRepository implements InvoiceRepositoryInterface
 
     public function getOneById(int $id): Invoice
     {
-        return Invoice::query()->findOrFail($id);
+        return $this->baseQuery()->findOrFail($id);
     }
 
     public function updateOne(Invoice $invoice, UpdateInvoiceDTO $dto): Invoice
@@ -61,12 +61,17 @@ class InvoiceRepository implements InvoiceRepositoryInterface
 
     public function countForUpdate(): int
     {
-        return Invoice::query()
+        return $this->baseQuery()
             ->lockForUpdate()
             ->count();
     }
 
-    private function applyFilter(Builder $query, FilterInvoiceDto $filters): void
+    protected function baseQuery(): Builder
+    {
+        return Invoice::query();
+    }
+
+    protected function applyFilter(Builder $query, FilterInvoiceDto $filters): void
     {
         if (! is_null($filters->contract_id)) {
             $query->where('contract_id', $filters->contract_id);
