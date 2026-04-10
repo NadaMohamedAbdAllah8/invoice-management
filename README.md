@@ -32,11 +32,19 @@ API base URL (local): `http://127.0.0.1:8000/api`
 php artisan test
 ```
 
+Run specific admin endpoint test files:
+
+```bash
+php artisan test --compact tests/Feature/Api/Admin/InvoiceTest.php
+php artisan test --compact tests/Feature/Api/Admin/TenantTest.php
+```
+
 ## Authentication
 
 Use:
 
 - `POST /api/login`
+- `POST /api/admin/login`
 
 Then pass bearer token for protected routes:
 
@@ -50,6 +58,17 @@ Then pass bearer token for protected routes:
 - `GET /api/contracts/{contract}/invoices`
 - `POST /api/invoices/{invoice}/payments`
 - `GET /api/invoices/{invoice}`
+
+## Admin Endpoints
+
+Admin endpoints require `auth:sanctum` and admin authorization.
+
+- `GET /api/admin/tenants`
+- `POST /api/admin/tenants`
+- `GET /api/admin/tenants/{tenant}`
+- `PUT /api/admin/tenants/{tenant}`
+- `GET /api/admin/invoices`
+- `GET /api/admin/invoices/{id}`
 
 ## Notes
 
